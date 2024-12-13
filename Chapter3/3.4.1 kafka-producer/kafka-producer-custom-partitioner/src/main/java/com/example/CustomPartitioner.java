@@ -15,13 +15,13 @@ public class CustomPartitioner  implements Partitioner {
     public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes,
                          Cluster cluster) {
 
-        if (keyBytes == null) {
+        if (keyBytes == null) { // 메시지 키 미 설정 시, 오류로 간주
             throw new InvalidRecordException("Need message key");
         }
-        if (((String)key).equals("Pangyo"))
+        if (((String)key).equals("PangyoKey"))
             return 0;
 
-        List<PartitionInfo> partitions = cluster.partitionsForTopic(topic);
+        List<PartitionInfo> partitions = cluster.partitionsForTopic(topic); // 특정 키값이 아니면 해쉬처리
         int numPartitions = partitions.size();
         return Utils.toPositive(Utils.murmur2(keyBytes)) % numPartitions;
     }

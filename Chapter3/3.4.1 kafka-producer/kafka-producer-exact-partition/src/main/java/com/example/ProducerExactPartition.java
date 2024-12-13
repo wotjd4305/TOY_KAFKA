@@ -20,7 +20,7 @@ public class ProducerExactPartition {
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
         int partitionNo = 0;
-        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, "Pangyo", "Pangyo");
+        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, partitionNo, "key", "Pangyo");
         producer.send(record);
 
         producer.flush();

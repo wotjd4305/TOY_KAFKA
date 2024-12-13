@@ -16,11 +16,11 @@ public class ProducerWithCustomPartitioner {
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        configs.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, CustomPartitioner.class);
+        configs.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, CustomPartitioner.class); // 커스텀 파티셔너 설정
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
-        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "Pangyo", "Pangyo");
+        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "PangyoKey", "Pangyo");
         producer.send(record);
         producer.flush();
         producer.close();

@@ -19,8 +19,8 @@ public class ProducerWithAsyncCallback {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
-        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "Pangyo", "Pangyo");
-        producer.send(record, new ProducerCallback());
+        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "PangyoKey", "Pangyo");
+        producer.send(record, new ProducerCallback()); // 비동기로 결과를 받고 싶다하면 Callback 클래스
 
         producer.flush();
         producer.close();
