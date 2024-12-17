@@ -21,17 +21,17 @@ public class SimpleConsumer {
     public static void main(String[] args) {
         Properties configs = new Properties();
         configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        configs.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
+        configs.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID); // 컨슈머 그룹을 통해, 컨슈머 목적 분류
         configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configs);
 
-        consumer.subscribe(Arrays.asList(TOPIC_NAME));
+        consumer.subscribe(Arrays.asList(TOPIC_NAME)); // 토픽 할당, 1개이상의 토픽 받을 수 있음.
 
-        while (true) {
+        while (true) { // 지속적 처리를 위해 반복 호출
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
-            for (ConsumerRecord<String, String> record : records) {
+            for (ConsumerRecord<String, String> record : records) { // 데이터 순차 처리
                 logger.info("record:{}", record);
             }
         }
