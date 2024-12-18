@@ -31,7 +31,7 @@ public class ConsumerWithSyncCommit {
             for (ConsumerRecord<String, String> record : records) {
                 logger.info("record:{}", record);
             }
-            consumer.commitSync();
+            consumer.commitSync(); // 파라미터 미 입력으로, 가장 마지막 레코드의 오프셋을 기준으로 커밋
         }
     }
 }

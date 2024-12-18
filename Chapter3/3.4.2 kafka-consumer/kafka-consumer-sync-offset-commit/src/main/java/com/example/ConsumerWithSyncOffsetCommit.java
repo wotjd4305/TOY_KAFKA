@@ -24,20 +24,20 @@ public class ConsumerWithSyncOffsetCommit {
         configs.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
         configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false); // 명시적 오프셋 커밋
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configs);
         consumer.subscribe(Arrays.asList(TOPIC_NAME));
 
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
-            Map<TopicPartition, OffsetAndMetadata> currentOffset = new HashMap<>();
+            Map<TopicPartition, OffsetAndMetadata> currentOffset = new HashMap<>(); // 개별 레코드 단위로 매번 오프셋 커밋
 
             for (ConsumerRecord<String, String> record : records) {
                 logger.info("record:{}", record);
                 currentOffset.put(
                         new TopicPartition(record.topic(), record.partition()),
-                        new OffsetAndMetadata(record.offset() + 1, null));
+                        new OffsetAndMetadata(record.offset() + 1, null)); // 현재 처리한 오프셋에 1을 더한 값을 커밋
                 consumer.commitSync(currentOffset);
             }
         }

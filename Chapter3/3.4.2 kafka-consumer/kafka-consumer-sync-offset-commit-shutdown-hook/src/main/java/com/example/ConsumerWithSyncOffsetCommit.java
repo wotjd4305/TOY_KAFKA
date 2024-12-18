@@ -20,6 +20,7 @@ public class ConsumerWithSyncOffsetCommit {
 
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new ShutdownThread());
+        logger.info("process PID : {}", ProcessHandle.current().pid());
 
         Properties configs = new Properties();
         configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
@@ -41,9 +42,10 @@ public class ConsumerWithSyncOffsetCommit {
             }
         } catch (WakeupException e) {
             logger.warn("Wakeup consumer");
+            // 리소스 해제 처리 필요
         } finally {
             logger.warn("Consumer close");
-            consumer.close();
+            consumer.close(); // 안전하게 종료되었다 명시적
         }
     }
 
