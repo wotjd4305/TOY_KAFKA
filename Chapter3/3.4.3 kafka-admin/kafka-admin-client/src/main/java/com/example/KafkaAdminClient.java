@@ -16,13 +16,21 @@ public class KafkaAdminClient {
     private final static Logger logger = LoggerFactory.getLogger(KafkaAdminClient.class);
     private final static String BOOTSTRAP_SERVERS = "my-kafka:9092";
 
+/**
+- 브로커 정보 조회
+- 토픽 리스트 조회
+- 컨슈머 그룹조회
+- 신규 토픽 생성
+- 파티션 개수 변경
+- 접근 제어 규칙 생성
+ **/
     public static void main(String[] args) throws Exception {
 
         Properties configs = new Properties();
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "my-kafka:9092");
         AdminClient admin = AdminClient.create(configs);
         logger.info("== Get broker information");
-        for (Node node : admin.describeCluster().nodes().get()) {
+        for (Node node : admin.describeCluster().nodes().get()) { // 브로커 정보 조회
             logger.info("node : {}", node);
             ConfigResource cr = new ConfigResource(ConfigResource.Type.BROKER, node.idString());
             DescribeConfigsResult describeConfigs = admin.describeConfigs(Collections.singleton(cr));
@@ -42,7 +50,7 @@ public class KafkaAdminClient {
         }
 
         logger.info("== Topic list");
-        for (TopicListing topicListing : admin.listTopics().listings().get()) {
+        for (TopicListing topicListing : admin.listTopics().listings().get()) { // 토픽 리스트 조회
             logger.info("{}", topicListing.toString());
         }
 
@@ -51,11 +59,11 @@ public class KafkaAdminClient {
         logger.info("{}", topicInformation);
 
         logger.info("== Consumer group list");
-        ListConsumerGroupsResult listConsumerGroups = admin.listConsumerGroups();
+        ListConsumerGroupsResult listConsumerGroups = admin.listConsumerGroups(); // 컨슈머 그룹 조회
         listConsumerGroups.all().get().forEach(v -> {
             logger.info("{}", v);
         });
 
-        admin.close();
+        admin.close(); // 명시적 종료
     }
 }
