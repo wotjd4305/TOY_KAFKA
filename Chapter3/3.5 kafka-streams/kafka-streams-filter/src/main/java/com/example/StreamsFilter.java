@@ -24,12 +24,12 @@ public class StreamsFilter {
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
-        KStream<String, String> streamLog = builder.stream(STREAM_LOG);
+        KStream<String, String> streamLog = builder.stream(STREAM_LOG); // 소스 프로세서
 //        KStream<String, String> filteredStream = streamLog.filter(
 //                (key, value) -> value.length() > 5);
 //        filteredStream.to(STREAM_LOG_FILTER);
 
-        streamLog.filter((key, value) -> value.length() > 5).to(STREAM_LOG_FILTER);
+        streamLog.filter((key, value) -> value.length() > 5).to(STREAM_LOG_FILTER); // 스트림 프로세서(filter), 싱크 프로세서(to)
 
 
         KafkaStreams streams;

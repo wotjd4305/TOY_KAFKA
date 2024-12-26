@@ -26,10 +26,11 @@ public class KStreamJoinKTable {
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
-        KTable<String, String> addressTable = builder.table(ADDRESS_TABLE);
-        KStream<String, String> orderStream = builder.stream(ORDER_STREAM);
+        KTable<String, String> addressTable = builder.table(ADDRESS_TABLE); // 소스 프로세서
+        KStream<String, String> orderStream = builder.stream(ORDER_STREAM); // 소스 프로세서
 
-        orderStream.join(addressTable, (order, address) -> order + " send to " + address).to(ORDER_JOIN_STREAM);
+        orderStream.join(addressTable, (order, address) -> order + " send to " + address) // 조합하여 새로 만들어질 레코드의 메시지 값
+                .to(ORDER_JOIN_STREAM); // 싱크 프로세서
 
         KafkaStreams streams;
         streams = new KafkaStreams(builder.build(), props);
