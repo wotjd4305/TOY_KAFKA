@@ -20,16 +20,16 @@ public class SimpleStreamApplication {
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, APPLICATION_NAME);
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass()); // 직렬화/역직렬화 방식
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
-        StreamsBuilder builder = new StreamsBuilder();
+        StreamsBuilder builder = new StreamsBuilder(); // 스트림 토폴리지 정의 용도
         KStream<String, String> stream = builder.stream(STREAM_LOG);
 
-        stream.to(STREAM_LOG_COPY);
+        stream.to(STREAM_LOG_COPY); // 다른 토픽으로 전송을 위함
 
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
-        streams.start();
+        streams.start(); // stream_log > stream_log_copy 토픽 전달
 
     }
 }
