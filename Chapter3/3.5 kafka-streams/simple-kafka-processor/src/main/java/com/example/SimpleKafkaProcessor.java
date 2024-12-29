@@ -22,6 +22,7 @@ public class SimpleKafkaProcessor {
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
+        // STREAM_LOG > 필터링 > STREAM_LOG_FILTER
         Topology topology = new Topology();
         topology.addSource("Source",
                         STREAM_LOG)
@@ -32,7 +33,7 @@ public class SimpleKafkaProcessor {
                         STREAM_LOG_FILTER,
                         "Process");
 
-        KafkaStreams streaming = new KafkaStreams(topology, props);
+        KafkaStreams streaming = new KafkaStreams(topology, props); // 스트림즈 생성, 실행
         streaming.start();
     }
 }
