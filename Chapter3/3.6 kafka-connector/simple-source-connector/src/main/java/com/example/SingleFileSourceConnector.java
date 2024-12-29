@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SingleFileSourceConnector extends SourceConnector {
+public class SingleFileSourceConnector extends SourceConnector { // 커텍트에서 사용할 커넥터 명이 됨
 
     private final Logger logger = LoggerFactory.getLogger(SingleFileSourceConnector.class);
 
