@@ -26,13 +26,13 @@ public class KStreamJoinGlobalKTable {
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
-        GlobalKTable<String, String> addressGlobalTable = builder.globalTable(ADDRESS_GLOBAL_TABLE);
-        KStream<String, String> orderStream = builder.stream(ORDER_STREAM);
+        GlobalKTable<String, String> addressGlobalTable = builder.globalTable(ADDRESS_GLOBAL_TABLE); // address_v2를 GlobalKTable로 정의
+        KStream<String, String> orderStream = builder.stream(ORDER_STREAM); // order KStream 정의
 
         orderStream.join(addressGlobalTable,
                         (orderKey, orderValue) -> orderKey,
                         (order, address) -> order + " send to " + address)
-                .to(ORDER_JOIN_STREAM);
+                .to(ORDER_JOIN_STREAM); // KTable과 달리 KStream의 키, 값을 모두 매칭 가능, 여기서는 키로
 
         KafkaStreams streams;
         streams = new KafkaStreams(builder.build(), props);
