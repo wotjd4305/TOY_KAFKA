@@ -21,7 +21,7 @@ public class SingleFileSinkConnector extends SinkConnector {
     }
 
     @Override
-    public void start(Map<String, String> props) {
+    public void start(Map<String, String> props) { // 필수값 빠져있으면 ConnectionException과 커넥션 종료
         this.configProperties = props;
         try {
             new SingleFileSinkConnectorConfig(props);

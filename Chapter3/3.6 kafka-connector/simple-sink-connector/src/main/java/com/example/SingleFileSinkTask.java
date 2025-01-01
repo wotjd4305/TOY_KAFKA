@@ -23,7 +23,7 @@ public class SingleFileSinkTask extends SinkTask {
     }
 
     @Override
-    public void start(Map<String, String> props) {
+    public void start(Map<String, String> props) { // 옵션대로 리소스 초기화
         try {
             config = new SingleFileSinkConnectorConfig(props);
             file = new File(config.getString(config.DIR_FILE_NAME));
