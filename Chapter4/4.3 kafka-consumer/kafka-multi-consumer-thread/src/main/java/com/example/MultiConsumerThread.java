@@ -21,7 +21,7 @@ public class MultiConsumerThread {
         configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newCachedThreadPool(); // 작업 완료 시, 스레드 자동 종료하여 편함
         for (int i = 0; i < CONSUMER_COUNT; i++) {
             ConsumerWorker worker = new ConsumerWorker(configs, TOPIC_NAME, i);
             executorService.execute(worker);

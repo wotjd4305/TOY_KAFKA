@@ -23,12 +23,12 @@ public class ConsumerWorker implements Runnable {
     ConsumerWorker(Properties prop, String topic, int number) {
         this.prop = prop;
         this.topic = topic;
-        this.threadName = "consumer-thread-" + number;
+        this.threadName = "consumer-thread-" + number; // 스레드 구별한 스레드 번호
     }
 
     @Override
     public void run() {
-        consumer = new KafkaConsumer<>(prop);
+        consumer = new KafkaConsumer<>(prop); // 스레드 세이프하지 않아 스레드별로 Kafka Consumer 인스턴스 별개 운영
         consumer.subscribe(Arrays.asList(topic));
         try {
             while (true) {

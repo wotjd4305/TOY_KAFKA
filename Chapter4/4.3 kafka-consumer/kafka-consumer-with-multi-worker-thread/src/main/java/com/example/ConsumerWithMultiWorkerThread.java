@@ -32,6 +32,7 @@ public class ConsumerWithMultiWorkerThread {
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configs);
         consumer.subscribe(Arrays.asList(TOPIC_NAME));
+        // 레코드 출력하고 출력완료되면 스레드 종료하도록, 짧은 시간의 생명주기에 유용
         ExecutorService executorService = Executors.newCachedThreadPool();
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(10));
